@@ -36,11 +36,11 @@
     {% block content %}
       {% placeholder "Main Content" %}
     {% endblock content %}
-    {% include "newsletter_pop_up.html" %}
     {% block base_js %}
       {% compress js file %}
         {% block compress_js %}
-        {% endcompress js %}
+        {% endblock %}
+      {% endcompress %}
       {% endblock base_js %}
       {% render_block 'js' %}
     </body>
