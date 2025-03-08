@@ -1,0 +1,47 @@
+{% load cms_tags menu_tags sekizai_tags compress static i18n djangocms_alias_tags %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon"
+          href="{% static 'images/favicons/favicon.ico' %}"
+          type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    {% block meta %}
+      <meta name="description" content="{% page_attribute 'meta_description' %}" />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content="{% page_attribute 'page_title' %}" />
+      <meta property="og:description"
+            content="{% page_attribute 'meta_description' %}" />
+    {% endblock meta %}
+    {% block canonical_url %}
+      <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+      <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    {% endblock canonical_url %}
+    {% block title %}
+      <title>{% page_attribute 'page_title' %}</title>
+    {% endblock title %}
+    {% block base_css %}
+      {% compress css file %}
+        <link href="{% static 'css/project.css' %}" rel="stylesheet" />
+      {% endcompress %}
+    {% endblock base_css %}
+    {% render_block 'css' %}
+  </head>
+  <body class="d-flex flex-column {% block body_class %}default-class{% endblock body_class %} position-relative">
+    {% cms_toolbar %}
+    {% block content %}
+      {% placeholder "Main Content" %}
+    {% endblock content %}
+    {% include "newsletter_pop_up.html" %}
+    {% block base_js %}
+      {% compress js file %}
+        {% block compress_js %}
+        {% endcompress js %}
+      {% endblock base_js %}
+      {% render_block 'js' %}
+    </body>
+  </html>

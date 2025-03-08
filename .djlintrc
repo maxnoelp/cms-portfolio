@@ -1,0 +1,15 @@
+{
+  "ignore": [
+    "portfolio/templates/admin/base.html",
+    "portfolio/templates/admin/base_site.html",
+    "portfolio/templates/admin/app_list.html",
+    "portfolio/templates/admin/inc/branding.html"
+  ],
+  "disable": [
+    "T003",
+    "H021",
+    "D018",
+    "H029",
+    "H023"
+  ]
+}

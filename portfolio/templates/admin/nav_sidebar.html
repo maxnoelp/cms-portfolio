@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<nav class="sticky bg-all-color"
+     id="nav-sidebar"
+     aria-label="{% translate 'Sidebar' %}">
+  <input type="search"
+         id="nav-filter"
+         placeholder="{% translate 'Start typing to filter…' %}"
+         aria-label="{% translate 'Filter navigation items' %}" />
+  {% include 'admin/app_list.html' with app_list=available_apps show_changelinks=False %}
+</nav>
+<button class="sticky bg-all-color px-2"
+        id="toggle-nav-sidebar"
+        aria-label="{% translate 'Toggle navigation' %}"></button>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("load");
+    let sideBtn = document.querySelector("#toggle-nav-sidebar");
+    console.log(sideBtn);
+    let sideBtnToggle = JSON.parse(localStorage.getItem("django.admin.navSidebarIsOpen"));
+    if (sideBtnToggle === true) {
+      sideBtn.innerHTML = '<i class="bi bi-arrow-left-circle fs-3 text-white"></i>';
+    } else {
+      sideBtn.innerHTML = '<i class="bi bi-arrow-right-circle fs-3 text-white"></i>';
+    }
+
+    sideBtn.addEventListener("click", function() {
+      let sideBtnToggled = JSON.parse(localStorage.getItem("django.admin.navSidebarIsOpen"));
+      console.log("side clicked");
+      if (sideBtnToggled === true) {
+        sideBtn.innerHTML = ""
+        sideBtn.innerHTML = '<i class="bi bi-arrow-left-circle fs-3 text-white"></i>';
+      } else {
+        sideBtn.innerHTML = ""
+        sideBtn.innerHTML = '<i class="bi bi-arrow-right-circle fs-3 text-white"></i>';
+      }
+    });
+  });
+</script>

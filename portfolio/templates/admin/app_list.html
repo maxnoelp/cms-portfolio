@@ -1,0 +1,92 @@
+{% load i18n %}
+
+{% block extrahead %}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <!-- Bootstrap Icons CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+  <!-- Bootstrap JS Bundle (inklusive Popper) -->
+{% endblock %}
+{% if app_list %}
+  {% for app in app_list %}
+    <div class="bg-all-color app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
+      <table class="caption-top bg-all-color">
+        <caption style="cursor: pointer">
+          <a href="{{ app.app_url }}"
+             onclick="event.preventDefault();"
+             class="section"
+             id="col-apse-{{ app.app_label }}"
+             title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}"
+             data-bs-target="#collapse{{ app.app_label }}">{{ app.name }}</a>
+        </caption>
+        <tbody id="collapse{{ app.app_label }}" class="d-none">
+          {% for model in app.models %}
+            <tr class="bg-table-color model-{{ model.object_name|lower }}{% if model.admin_url in request.path|urlencode %} current-model{% endif %}">
+              {% if model.admin_url %}
+                <th scope="row">
+                  <a href="{{ model.admin_url }}"
+                     {% if model.admin_url in request.path|urlencode %}aria-current="page"{% endif %}
+                     class="fw-bold text-black">{{ model.name }}</a>
+                </th>
+              {% else %}
+                <th scope="row">{{ model.name }}</th>
+              {% endif %}
+              {% if model.add_url %}
+                <td>
+                  <a href="{{ model.add_url }}">
+                    <i class="bi bi-file-earmark-plus-fill me-2 text-black"></i>
+                    <span class="fw-bold text-black">{% translate 'Add' %}</span>
+                  </a>
+                </td>
+              {% else %}
+                <td></td>
+              {% endif %}
+              {% if model.admin_url and show_changelinks %}
+                {% if model.view_only %}
+                  <td>
+                    <a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a>
+                  </td>
+                {% else %}
+                  <td>
+                    <a href="{{ model.admin_url }}" class="changelink">{% translate 'Change' %}</a>
+                  </td>
+                {% endif %}
+              {% elif show_changelinks %}
+                <td></td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+{% endif %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    //console.log("event loaded");
+    let captions = document.querySelectorAll("[id^='col-apse-']");
+    //console.log(captions);
+
+    captions.forEach(function(caption) {
+      caption.addEventListener("click", function() {
+        let targetSelector = caption.getAttribute("data-bs-target");
+        let collapseElem = document.querySelector(targetSelector);
+        //console.log("Target:", collapseElem);
+
+        if (collapseElem) {
+          if (collapseElem.classList.contains("d-none")) {
+            collapseElem.classList.remove("d-none");
+            collapseElem.classList.add("d-block");
+          } else {
+            collapseElem.classList.remove("d-block");
+            collapseElem.classList.add("d-none");
+          }
+        }
+      });
+    });
+  });
+</script>
