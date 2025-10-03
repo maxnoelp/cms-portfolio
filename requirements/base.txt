@@ -43,7 +43,7 @@ django-storage-url==0.12.1
 django-sekizai==4.1.0
 django-polymorphic==4.1.0
 django-parler==2.3
-django-fsm==2.8.2
+django-fsm==3.0.0
 django-formtools==2.5.1
 django-entangled==0.6.2
 django-classy-tags==4.1.0
