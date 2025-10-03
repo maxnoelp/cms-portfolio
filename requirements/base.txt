@@ -30,7 +30,7 @@ drf-spectacular==0.28.0  # https://github.com/tfranzel/drf-spectacular
 # key requirements for django CMS
 django-cms==5.0.1
 djangocms-versioning==2.3.2
-djangocms-alias==2.0.3
+djangocms-alias==3.0.1
 djangocms-admin-style>=3.3.1
 djangocms-text==0.9.3
 djangocms-attributes-field==4.1.1
